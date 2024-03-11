@@ -22,9 +22,9 @@ const Nav = () => {
   }, [darkMode]);
 
   return (
-    <div className={`${darkMode && "dark"}`}>
+    <div className={`fixed top-0 left-0 right-0 ${darkMode && "dark"}`}>
       <div className='h-14 border-b border-black dark:border-white flex justify-between items-center'>
-        <div className='ml-4 mr-4 italic text-xl font-bold tracking-tight'>
+        <div className='ml-4 mr-4 italic text-2xl font-bold tracking-tight'>
           TURFIFY
         </div>
         <div className='relative'>

@@ -4,8 +4,14 @@ import React from 'react'
 const IndexPage = () => {
   return (
     <div>
-      <Nav/>
+      <div>
+        <Nav />
+      </div>
+      <div className='pt-16'>
+        hi
+      </div>
     </div>
+
   )
 }
 
