@@ -19,7 +19,7 @@ const Login = () => {
       <DarkModeButton/>
       <div className='flex-1 flex items-center justify-center'>
         <div>
-          <Card className="w-[350px]">
+          <Card className="w-[350px] dark:border dark:border-white">
             <CardHeader className='flex items-center justify-center'>
               <CardTitle className='text-lg'>Login</CardTitle>
               <CardDescription>Welcome to Turfify</CardDescription>

@@ -1,26 +1,20 @@
+"use client"
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import CopyRight from '@/components/copybar/page.';
 import DarkModeButton from '@/components/darkmode/page';
+import { PhoneInput } from './phone-input';
 
 const SignupU = () => {
   return (
@@ -28,7 +22,7 @@ const SignupU = () => {
       <DarkModeButton/>
     <div className='flex-1 flex items-center justify-center'>
         <div>
-          <Card className="w-[350px]">
+          <Card className="w-[350px] dark:border dark:border-white">
             <CardHeader className='flex items-center justify-center'>
               <CardTitle className='text-lg'>User Signup</CardTitle>
               <CardDescription>Welcome to Turfify</CardDescription>
@@ -46,7 +40,7 @@ const SignupU = () => {
                   </div>
                   <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="framework">Phone Number</Label>
-                    <Input type="phone" placeholder="Phone Number" />
+                    <PhoneInput value="+91" placeholder="Enter a phone number"/>
                   </div>
                   <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="framework">Password</Label>

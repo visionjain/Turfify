@@ -1,3 +1,4 @@
+"use client"
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import CopyRight from '@/components/copybar/page.';
 import DarkModeButton from '@/components/darkmode/page';
-
+import { PhoneInput } from '../signupu/phone-input';
 
 const SignupP = () => {
     return (
@@ -21,7 +22,7 @@ const SignupP = () => {
             <DarkModeButton/>
             <div className='flex-1 flex items-center justify-center'>
                 <div>
-                    <Card className="w-[350px]">
+                    <Card className="w-[350px] dark:border dark:border-white">
                         <CardHeader className='flex items-center justify-center'>
                             <CardTitle className='text-lg'>Turf Signup</CardTitle>
                             <CardDescription>Welcome to Turfify</CardDescription>
@@ -43,7 +44,7 @@ const SignupP = () => {
                                     </div>
                                     <div className="flex flex-col space-y-1.5">
                                         <Label htmlFor="framework">Phone Number</Label>
-                                        <Input type="phone" placeholder="Phone Number" />
+                                        <PhoneInput value="+91" placeholder="Enter a phone number"/>
                                     </div>
                                     <div className="flex flex-col space-y-1.5">
                                         <Label htmlFor="framework">Password</Label>
