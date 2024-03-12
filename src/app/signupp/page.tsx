@@ -13,6 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import CopyRight from '@/components/copybar/page.';
 
+
 const SignupP = () => {
     return (
         <div className='flex flex-col h-screen'>
