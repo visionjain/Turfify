@@ -12,11 +12,13 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import CopyRight from '@/components/copybar/page.';
+import DarkModeButton from '@/components/darkmode/page';
 
 
 const SignupP = () => {
     return (
         <div className='flex flex-col h-screen'>
+            <DarkModeButton/>
             <div className='flex-1 flex items-center justify-center'>
                 <div>
                     <Card className="w-[350px]">

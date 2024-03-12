@@ -11,10 +11,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import CopyRight from '@/components/copybar/page.';
+import DarkModeButton from '@/components/darkmode/page';
 
 const Login = () => {
   return (
     <div className='flex flex-col h-screen'>
+      <DarkModeButton/>
       <div className='flex-1 flex items-center justify-center'>
         <div>
           <Card className="w-[350px]">

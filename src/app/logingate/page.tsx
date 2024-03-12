@@ -2,6 +2,7 @@
 import React from 'react'
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import DarkModeButton from '@/components/darkmode/page';
 const Logingate = () => {
     const router = useRouter();
 
@@ -17,6 +18,7 @@ const Logingate = () => {
     };
     return (
         <div className="flex items-center justify-center h-screen">
+            <DarkModeButton/>
             <div className="text-center flex flex-col space-y-4">
                 <Button className='p-5' onClick={handleUserSignup}>User Signup</Button>
                 <Button className='p-5' onClick={handlePartnerSignup}>Turf Signup</Button>
