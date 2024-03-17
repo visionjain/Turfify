@@ -278,3 +278,66 @@
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
+
+/* Autocomplete Container */
+.pac-container {
+  background-color: #ffffff; /* Default background color */
+  position: absolute !important;
+  z-index: 1000;
+  margin-top: 18px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  max-height: 300px;
+  width: 300px; /* Adjust width as needed */
+  padding: 8px;
+}
+
+/* Hide Powered by Google Logo */
+.pac-logo:after {
+  display: none !important;
+}
+
+/* Dark Mode */
+.dark .pac-container {
+  background-color: #f1f1f1; /* Dark mode background color */
+  box-shadow: 0 4px 12px white;
+
+}
+
+
+/* Autocomplete Item */
+.pac-item {
+  cursor: pointer;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #333333;
+  transition: background-color 0.3s ease;
+}
+
+.dark .pac-item{
+  color: black;
+}
+
+/* Hover Effect */
+.pac-item:hover {
+  background-color: #d6d6d6;
+  color: black;
+}
+
+/* Selected Item */
+.pac-item-selected,
+.pac-item-selected:hover {
+  background-color: #e6f7ff; /* Light blue */
+}
+
+/* Matched Text */
+.pac-matched {
+  font-weight: bold;
+  color: #007bff; /* Blue */
+}
+
+/* Placeholder */
+.pac-placeholder {
+  color: #808080; /* Gray */
+}
