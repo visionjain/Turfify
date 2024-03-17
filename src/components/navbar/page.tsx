@@ -24,7 +24,7 @@ const Nav = () => {
 
   const router = useRouter();
   const loginredirect = () => {
-    router.push('/logingate');
+    router.push('/login');
   };
 
   const inputRef = useRef<HTMLInputElement | null>(null);
