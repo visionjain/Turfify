@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FaSearch } from "react-icons/fa";
+import { FaLocationCrosshairs } from "react-icons/fa6";
 import { useRouter } from 'next/navigation';
 
 const Nav = () => {
@@ -51,7 +51,7 @@ const Nav = () => {
           TURFIFY
         </div>
         <div className='relative'>
-          <FaSearch className='absolute left-3 top-1/2 transform -translate-y-1/2 dark:text-gray-400 text-black' />
+          <FaLocationCrosshairs className='absolute left-3 top-1/2 transform -translate-y-1/2 dark:text-gray-400 text-black' />
           <Input style={{ border: darkMode ? '1px solid white' : '1px solid black' }} className='pl-10 w-[50vw]' ref={inputRef} placeholder='Search for locations' />
         </div>
         <div className='flex items-center space-x-2 mr-4'>
