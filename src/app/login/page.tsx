@@ -1,4 +1,5 @@
-import React from 'react';
+"use client"
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,10 +13,18 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import CopyRight from '@/components/copybar/page.';
 import DarkModeButton from '@/components/darkmode/page';
+import { FaRegEye, FaEyeSlash } from 'react-icons/fa';
 
 const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  }
   return (
     <div className='flex flex-col h-screen'>
+      <div className='pt-4 items-center justify-center flex italic text-2xl font-bold tracking-tight'>
+        TURFIFY
+      </div>
       <DarkModeButton />
       <div className='flex-1 flex items-center justify-center'>
         <div>
@@ -32,8 +41,13 @@ const Login = () => {
                     <Input type="email" placeholder="Email" />
                   </div>
                   <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="framework">Password</Label>
-                    <Input type="password" placeholder="Password" />
+                  <Label htmlFor="password">Password</Label>
+                    <div className="relative">
+                      <Input  type={showPassword ? "text" : "password"} placeholder="Password" />
+                      <button type="button" onClick={togglePasswordVisibility} className="absolute top-1/2 right-3 transform -translate-y-1/2 focus:outline-none">
+                        {showPassword ? <FaRegEye /> : <FaEyeSlash />}
+                      </button>
+                    </div>
                     <p>
                       <Link className='text-blue-500 text-[13px] items-end justify-end flex hover:underline' href='/forgotpass'>forgot password?</Link>
                     </p>

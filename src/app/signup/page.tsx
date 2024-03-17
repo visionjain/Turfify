@@ -50,6 +50,9 @@ const SignupU = () => {
 
   return (
     <div className='flex flex-col h-screen'>
+      <div className='pt-4 items-center justify-center flex italic text-2xl font-bold tracking-tight'>
+        TURFIFY
+      </div>
       <DarkModeButton />
       <div className='flex-1 flex items-center justify-center'>
         <div>
@@ -78,7 +81,7 @@ const SignupU = () => {
                     <div className="relative">
                       <Input type={showPassword ? "text" : "password"} id="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                       <button type="button" onClick={togglePasswordVisibility} className="absolute top-1/2 right-3 transform -translate-y-1/2 focus:outline-none">
-                        {showPassword ? <FaEyeSlash /> : <FaRegEye />}
+                        {showPassword ? <FaRegEye /> : <FaEyeSlash />}
                       </button>
                     </div>
                   </div>
