@@ -26,6 +26,9 @@ const Nav = () => {
   const loginredirect = () => {
     router.push('/login');
   };
+  const joinredirect = () => {
+    router.push('/signup')
+  }
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const autoCompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
@@ -55,7 +58,8 @@ const Nav = () => {
           <Input style={{ border: darkMode ? '1px solid white' : '1px solid black' }} className='pl-10 w-[50vw]' ref={inputRef} placeholder='Search for locations' />
         </div>
         <div className='flex items-center space-x-2 mr-4'>
-          <Button onClick={loginredirect} className='px-[2vw] ml-2 mr-2' variant="default">Login / Signup</Button>
+          <Button onClick={loginredirect} className='px-[2vw] ml-2 mr-2' variant="default">Sign in</Button>
+          <Button onClick={joinredirect} className='px-[2vw] ml-2 mr-2' variant="default">Join</Button>
           <div>
             <label className="theme-switch">
               <input type="checkbox" className="theme-switch__checkbox" checked={darkMode} onChange={toggleDarkMode} />
