@@ -1,6 +1,7 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
+import { toast } from 'sonner'
 import {
   Card,
   CardContent,
@@ -15,12 +16,42 @@ import Link from "next/link";
 import CopyRight from '@/components/copybar/page.';
 import DarkModeButton from '@/components/darkmode/page';
 import { PhoneInput } from './phone-input';
+import { FaRegEye, FaEyeSlash } from 'react-icons/fa';
 
 const SignupU = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // State to track password visibility
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  }
+
+  const alertIncompleteFields = () => {
+    toast.info("Please fill all fields.");
+  }
+
+  const handleSignUp = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault();
+    if (!name || !email || !phoneNumber || !password) {
+      alertIncompleteFields();
+    } else {
+      // Log the data
+      console.log("Name:", name);
+      console.log("Email:", email);
+      console.log("Phone Number:", phoneNumber);
+      console.log("Password:", password);
+
+      // Proceed with signup logic
+    }
+  }
+
   return (
     <div className='flex flex-col h-screen'>
-      <DarkModeButton/>
-    <div className='flex-1 flex items-center justify-center'>
+      <DarkModeButton />
+      <div className='flex-1 flex items-center justify-center'>
         <div>
           <Card className="w-[350px] dark:border dark:border-white">
             <CardHeader className='flex items-center justify-center'>
@@ -32,33 +63,41 @@ const SignupU = () => {
                 <div className="grid w-full items-center gap-4">
                   <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="name">Name</Label>
-                    <Input id="name" placeholder="name" />
+                    <Input id="name" placeholder="name" value={name} onChange={(e) => setName(e.target.value)} />
                   </div>
                   <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="framework">Email</Label>
-                    <Input type="email" placeholder="Email" />
+                    <Label htmlFor="email">Email</Label>
+                    <Input type="email" id="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                   </div>
                   <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="framework">Phone Number</Label>
-                    <PhoneInput value="+91" placeholder="Enter a phone number"/>
+                    <Label htmlFor="phoneNumber">Phone Number</Label>
+                    <PhoneInput id="phoneNumber" value={phoneNumber || ''} onChange={(value) => setPhoneNumber(value || '')} placeholder="Enter a phone number" />
                   </div>
                   <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="framework">Password</Label>
-                    <Input type="password" placeholder="Password" />
+                    <Label htmlFor="password">Password</Label>
+                    <div className="relative">
+                      <Input type={showPassword ? "text" : "password"} id="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                      <button type="button" onClick={togglePasswordVisibility} className="absolute top-1/2 right-3 transform -translate-y-1/2 focus:outline-none">
+                        {showPassword ? <FaEyeSlash /> : <FaRegEye />}
+                      </button>
+                    </div>
                   </div>
-                  <div className="flex flex-col space-y-1.5">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="terms" />
+                  <div className="items-top flex space-x-2">
+                    <Checkbox id="terms1" />
+                    <div className="grid gap-1.5 leading-none">
                       <label
-                        htmlFor="terms"
+                        htmlFor="terms1"
                         className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                       >
                         Accept terms and conditions
                       </label>
+                      <p className="text-[10px] text-muted-foreground">
+                        You agree to our Terms of Service and Privacy Policy.
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center justify-center">
-                    <Button className='px-20'>SignUp</Button>
+                    <Button className='px-20' onClick={handleSignUp}>SignUp</Button>
                   </div>
                   <div className='mx-auto flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>or</div>
                   <p className='text-sm'>If you already have an account, please&nbsp;
@@ -72,7 +111,7 @@ const SignupU = () => {
       </div>
       <CopyRight />
     </div>
-  )
+  );
 }
 
-export default SignupU
+export default SignupU;

@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 import Script from "next/script";
-
+import { Toaster } from "@/components/ui/sonner";
 export const metadata: Metadata = {
   title: "Turfify",
   description: "Turfify",
@@ -27,6 +27,7 @@ export default function RootLayout({
             strategy="beforeInteractive"
           />
         )}
+        <Toaster />
       </body>
     </html>
   );

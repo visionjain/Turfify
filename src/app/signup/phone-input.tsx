@@ -44,6 +44,7 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
           flagComponent={FlagComponent}
           countrySelectComponent={CountrySelect}
           inputComponent={InputComponent}
+          defaultCountry="IN" // Set default country to India
           onChange={(value) => onChange?.(value)}
           {...props}
         />
