@@ -30,7 +30,12 @@ const SignupU = () => {
   }
 
   const alertIncompleteFields = () => {
-    toast.info("Please fill all fields.");
+    toast.info("Please fill all fields.", {
+      style: {
+        background: 'red',
+        color: 'white',
+      },
+    });
   }
 
   const handleSignUp = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
