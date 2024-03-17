@@ -40,7 +40,7 @@ const Login = () => {
                   </div>
                   <div className='mx-auto flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>or</div>
                   <p className='text-sm'>If you don&apos;t have an account, please&nbsp;
-                    <Link className='text-blue-500 text-sm hover:underline' href='/logingate'>Signup</Link>
+                    <Link className='text-blue-500 text-sm hover:underline' href='/signup'>Signup</Link>
                   </p>
                 </div>
               </form>
