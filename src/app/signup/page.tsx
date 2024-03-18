@@ -17,6 +17,8 @@ import CopyRight from '@/components/copybar/page.';
 import DarkModeButton from '@/components/darkmode/page';
 import { PhoneInput } from './phone-input';
 import { FaRegEye, FaEyeSlash } from 'react-icons/fa';
+import axios from 'axios';
+
 
 const SignupU = () => {
   const [name, setName] = useState("");
@@ -38,18 +40,36 @@ const SignupU = () => {
     });
   }
 
-  const handleSignUp = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleSignUp = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     if (!name || !email || !phoneNumber || !password) {
       alertIncompleteFields();
     } else {
-      // Log the data
-      console.log("Name:", name);
-      console.log("Email:", email);
-      console.log("Phone Number:", phoneNumber);
-      console.log("Password:", password);
+      try {
+        const response = await axios.post('/api/users/signup', {
+          name,
+          email,
+          phoneNumber,
+          password
+        });
 
-      // Proceed with signup logic
+        toast.success("User Created Successfully", {
+          style: {
+            background: 'green',
+            color: 'white',
+          },
+        });
+        // Optionally, you can handle success here, e.g., show a success message or redirect the user
+      } catch (error: any) {
+        const errorMessage = error.response?.data?.error || 'An error occurred';
+        toast(errorMessage, {
+          style: {
+            background: 'red',
+            color: 'white',
+          },
+        });
+      }
+
     }
   }
 
