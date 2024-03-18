@@ -18,9 +18,10 @@ import DarkModeButton from '@/components/darkmode/page';
 import { PhoneInput } from './phone-input';
 import { FaRegEye, FaEyeSlash } from 'react-icons/fa';
 import axios from 'axios';
-
+import { useRouter } from 'next/navigation';
 
 const SignupU = () => {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -59,6 +60,8 @@ const SignupU = () => {
             color: 'white',
           },
         });
+        router.push('/login')
+        
         // Optionally, you can handle success here, e.g., show a success message or redirect the user
       } catch (error: any) {
         const errorMessage = error.response?.data?.error || 'An error occurred';

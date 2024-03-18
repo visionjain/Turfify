@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,12 +15,52 @@ import CopyRight from '@/components/copybar/page.';
 import DarkModeButton from '@/components/darkmode/page';
 import { FaRegEye, FaEyeSlash } from 'react-icons/fa';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
-const Login: React.FC = () => {
+
+
+export default function LoginPage() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  }
+
+  const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!user.email || !user.password) {
+      alertIncompleteFields();
+      return; // Stop execution if any field is empty
+    }
+
+    try {
+      const response = await axios.post("/api/users/login", user);
+      console.log("Login success", response.data);
+      toast.success("Login successful", {
+        style: {
+          background: 'green',
+          color: 'white',
+        },
+      });
+      router.push("/profile");
+    } catch (error: any) {
+      console.log("Login failed", error.response.data.error);
+      toast.error(error.response.data.error, {
+        style: {
+          background: 'red',
+          color: 'white',
+        },
+      });
+    }
   }
 
   const alertIncompleteFields = () => {
@@ -32,17 +72,13 @@ const Login: React.FC = () => {
     });
   }
 
-  const handleSignIn = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    event.preventDefault();
-    const emailInput = document.getElementById("email") as HTMLInputElement;
-    const passwordInput = document.getElementById("password") as HTMLInputElement;
-    
-    if (!emailInput.value || !passwordInput.value) {
-      alertIncompleteFields();
+  useEffect(() => {
+    if (user.email.length > 0 && user.password.length > 0) {
+      setButtonDisabled(false);
     } else {
-      // Proceed with sign-in logic
+      setButtonDisabled(true);
     }
-  }
+  }, [user]);
 
   return (
     <div className='flex flex-col h-screen'>
@@ -58,30 +94,39 @@ const Login: React.FC = () => {
               <CardDescription>Welcome to Turfify</CardDescription>
             </CardHeader>
             <CardContent>
-              <form>
+              <form onSubmit={handleSignIn}>
                 <div className="grid w-full items-center gap-4">
                   <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="email">Email</Label>
-                    <Input type="email" id="email" placeholder="Email" />
+                    <Input id="email"
+                      type="text"
+                      value={user.email}
+                      onChange={(e) => setUser({ ...user, email: e.target.value })}
+                      placeholder="Email"
+                    />
                   </div>
                   <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="password">Password</Label>
                     <div className="relative">
-                      <Input type={showPassword ? "text" : "password"} id="password" placeholder="Password" />
+                      <Input id="password"
+                        type={showPassword ? "text" : "password"}
+                        value={user.password}
+                        onChange={(e) => setUser({ ...user, password: e.target.value })}
+                        placeholder="Password" />
                       <button type="button" onClick={togglePasswordVisibility} className="absolute top-1/2 right-3 transform -translate-y-1/2 focus:outline-none">
                         {showPassword ? <FaRegEye /> : <FaEyeSlash />}
                       </button>
                     </div>
                     <p>
-                      <Link className='text-blue-500 text-[13px] items-end justify-end flex hover:underline' href='/forgotpass'>forgot password?</Link>
+                      <Link className='text-blue-500 text-[13px] items-end justify-end flex hover:underline' href='/forgotpass'>Forgot password?</Link>
                     </p>
                   </div>
                   <div className="flex items-center justify-center">
-                    <Button className='px-20' onClick={handleSignIn}>Sign In</Button>
+                    <Button className='px-20' type="submit">Sign In</Button>
                   </div>
                   <div className='mx-auto flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>or</div>
                   <p className='text-sm'>If you don&apos;t have an account, please&nbsp;
-                    <Link className='text-blue-500 text-sm hover:underline' href='/signup'>Signup</Link>
+                    <Link className='text-blue-500 text-sm hover:underline' href='/signup'>Sign Up</Link>
                   </p>
                 </div>
               </form>
@@ -93,5 +138,3 @@ const Login: React.FC = () => {
     </div>
   )
 }
-
-export default Login;
