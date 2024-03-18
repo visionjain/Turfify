@@ -14,12 +14,36 @@ import Link from "next/link";
 import CopyRight from '@/components/copybar/page.';
 import DarkModeButton from '@/components/darkmode/page';
 import { FaRegEye, FaEyeSlash } from 'react-icons/fa';
+import { toast } from 'sonner';
 
-const Login = () => {
-  const [showPassword, setShowPassword] = useState(false);
+const Login: React.FC = () => {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   }
+
+  const alertIncompleteFields = () => {
+    toast.info("Please fill all fields.", {
+      style: {
+        background: 'red',
+        color: 'white',
+      },
+    });
+  }
+
+  const handleSignIn = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault();
+    const emailInput = document.getElementById("email") as HTMLInputElement;
+    const passwordInput = document.getElementById("password") as HTMLInputElement;
+    
+    if (!emailInput.value || !passwordInput.value) {
+      alertIncompleteFields();
+    } else {
+      // Proceed with sign-in logic
+    }
+  }
+
   return (
     <div className='flex flex-col h-screen'>
       <div className='pt-4 items-center justify-center flex italic text-2xl font-bold tracking-tight'>
@@ -37,13 +61,13 @@ const Login = () => {
               <form>
                 <div className="grid w-full items-center gap-4">
                   <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="framework">Email</Label>
-                    <Input type="email" placeholder="Email" />
+                    <Label htmlFor="email">Email</Label>
+                    <Input type="email" id="email" placeholder="Email" />
                   </div>
                   <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="password">Password</Label>
                     <div className="relative">
-                      <Input  type={showPassword ? "text" : "password"} placeholder="Password" />
+                      <Input type={showPassword ? "text" : "password"} id="password" placeholder="Password" />
                       <button type="button" onClick={togglePasswordVisibility} className="absolute top-1/2 right-3 transform -translate-y-1/2 focus:outline-none">
                         {showPassword ? <FaRegEye /> : <FaEyeSlash />}
                       </button>
@@ -53,7 +77,7 @@ const Login = () => {
                     </p>
                   </div>
                   <div className="flex items-center justify-center">
-                    <Button className='px-20'>Sign In</Button>
+                    <Button className='px-20' onClick={handleSignIn}>Sign In</Button>
                   </div>
                   <div className='mx-auto flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>or</div>
                   <p className='text-sm'>If you don&apos;t have an account, please&nbsp;
@@ -70,4 +94,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Login;
