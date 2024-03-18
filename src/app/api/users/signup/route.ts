@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: "user already exists" },
         { status: 400 }
-      );
+      ); 
     }
 
     const salt = await bcryptjs.genSalt(10);
