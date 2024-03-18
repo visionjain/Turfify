@@ -18,8 +18,6 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
-
-
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [user, setUser] = useState({
@@ -27,7 +25,7 @@ export default function LoginPage() {
     password: "",
   });
   const [buttonDisabled, setButtonDisabled] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // State for loading indicator
   const router = useRouter();
 
   const togglePasswordVisibility = () => {
@@ -39,12 +37,14 @@ export default function LoginPage() {
 
     if (!user.email || !user.password) {
       alertIncompleteFields();
-      return; // Stop execution if any field is empty
+      return;
     }
+
+    // Start loading
+    setLoading(true);
 
     try {
       const response = await axios.post("/api/users/login", user);
-      console.log("Login success", response.data);
       toast.success("Login successful", {
         style: {
           background: 'green',
@@ -53,13 +53,15 @@ export default function LoginPage() {
       });
       router.push("/profile");
     } catch (error: any) {
-      console.log("Login failed", error.response.data.error);
       toast.error(error.response.data.error, {
         style: {
           background: 'red',
           color: 'white',
         },
       });
+    } finally {
+      // Stop loading
+      setLoading(false);
     }
   }
 
@@ -122,7 +124,8 @@ export default function LoginPage() {
                     </p>
                   </div>
                   <div className="flex items-center justify-center">
-                    <Button className='px-20' type="submit">Sign In</Button>
+                    <Button className='px-20' type="submit">{loading ? "Loading..." : "Sign In"}</Button>
+                    {/* Show loading indicator or button text based on loading state */}
                   </div>
                   <div className='mx-auto flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>or</div>
                   <p className='text-sm'>If you don&apos;t have an account, please&nbsp;

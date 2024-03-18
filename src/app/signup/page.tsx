@@ -27,6 +27,7 @@ const SignupU = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false); // State to track password visibility
+  const [loading, setLoading] = useState(false); // State to track loading state
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -43,36 +44,52 @@ const SignupU = () => {
 
   const handleSignUp = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
+
+    // If any of the fields are empty, show an alert and return
     if (!name || !email || !phoneNumber || !password) {
       alertIncompleteFields();
-    } else {
-      try {
-        const response = await axios.post('/api/users/signup', {
-          name,
-          email,
-          phoneNumber,
-          password
-        });
+      return;
+    }
 
-        toast.success("User Created Successfully", {
-          style: {
-            background: 'green',
-            color: 'white',
-          },
-        });
-        router.push('/login')
-        
-        // Optionally, you can handle success here, e.g., show a success message or redirect the user
-      } catch (error: any) {
-        const errorMessage = error.response?.data?.error || 'An error occurred';
-        toast(errorMessage, {
-          style: {
-            background: 'red',
-            color: 'white',
-          },
-        });
-      }
+    // If the signup process is already in progress, return
+    if (loading) {
+      return;
+    }
 
+    // Set loading state to true to show "Loading..." on the button
+    setLoading(true);
+
+    try {
+      // Make signup request
+      const response = await axios.post('/api/users/signup', {
+        name,
+        email,
+        phoneNumber,
+        password
+      });
+
+      // Show success message
+      toast.success("User Created Successfully", {
+        style: {
+          background: 'green',
+          color: 'white',
+        },
+      });
+
+      // Redirect user to login page
+      router.push('/login');
+    } catch (error: any) {
+      // Show error message
+      const errorMessage = error.response?.data?.error || 'An error occurred';
+      toast(errorMessage, {
+        style: {
+          background: 'red',
+          color: 'white',
+        },
+      });
+    } finally {
+      // Reset loading state to false after signup process completes (whether success or failure)
+      setLoading(false);
     }
   }
 
@@ -128,7 +145,9 @@ const SignupU = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-center">
-                    <Button className='px-20' onClick={handleSignUp}>SignUp</Button>
+                    <Button className='px-20' onClick={handleSignUp}>
+                      {loading ? "Loading..." : "SignUp"}
+                    </Button>
                   </div>
                   <div className='mx-auto flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>or</div>
                   <p className='text-sm'>If you already have an account, please&nbsp;
