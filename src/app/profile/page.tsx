@@ -6,6 +6,7 @@ import LogoutButton from "@/components/logoutbutton/page";
 import Loader from "@/components/loader/page";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import Nav from "@/components/navbar/page";
 
 export default function ProfilePage() {
     const router = useRouter();
@@ -45,12 +46,15 @@ export default function ProfilePage() {
 
     if (userRole === "user") {
         return (
+            <div>
+               <Nav showSearchBar={false} />
             <div className="flex flex-col items-center justify-center min-h-screen py-2">
                 <h2>Welcome User</h2>
                 <p>Name: {userDetails.name}</p>
                 <p>Email: {userDetails.email}</p>
                 <p>Phone Number: {userDetails.phoneNumber}</p>
                 <LogoutButton />
+            </div>
             </div>
         );
     } else if (userRole === "admin") {

@@ -5,10 +5,10 @@ const IndexPage = () => {
   return (
     <div>
       <div>
-        <Nav />
+        <Nav showSearchBar={true} />
       </div>
       <div className='pt-16'>
-        hi
+        hi This is Home Page
       </div>
     </div>
 

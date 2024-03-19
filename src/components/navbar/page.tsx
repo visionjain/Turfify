@@ -16,8 +16,11 @@ import {
 } from "@/components/ui/menubar"
 import { toast } from 'sonner';
 import axios from 'axios';
+interface NavProps {
+  showSearchBar: boolean;
+}
 
-const Nav = () => {
+const Nav: React.FC<NavProps> = ({ showSearchBar }) => {
   const [darkMode, setDarkMode] = useState(false);
   const [userDetails, setUserDetails] = useState<any>(null); // Set the type to any
   const [userRole, setUserRole] = useState("");
@@ -106,10 +109,12 @@ const Nav = () => {
         <div className='ml-4 mr-4 italic text-2xl font-bold tracking-tight'>
           TURFIFY
         </div>
-        <div className='relative'>
-          <FaLocationCrosshairs className='absolute left-3 top-1/2 transform -translate-y-1/2 dark:text-gray-400 text-black' />
-          <Input style={{ border: darkMode ? '1px solid white' : '1px solid black' }} className='pl-10 w-[50vw]' ref={inputRef} placeholder='Search for locations' />
-        </div>
+        {showSearchBar && (
+          <div className='relative'>
+            <FaLocationCrosshairs className='absolute left-3 top-1/2 transform -translate-y-1/2 dark:text-gray-400 text-black' />
+            <Input style={{ border: darkMode ? '1px solid white' : '1px solid black' }} className='pl-10 w-[50vw]' ref={inputRef} placeholder='Search for locations' />
+          </div>
+        )}
         <div className='flex items-center space-x-2 mr-4'>
           {/* <Button onClick={loginredirect} className='px-[2vw] ml-2 mr-2' variant="default">Login</Button>
           <Button onClick={joinredirect} className='px-[2vw] ml-2 mr-2' variant="default">Sign Up</Button> */}
