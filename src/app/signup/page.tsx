@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { toast } from 'sonner';
 import {
@@ -32,6 +32,19 @@ const SignupU = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   }
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      toast.info("Already Logged In.", {
+        style: {
+          background: 'red',
+          color: 'white',
+        },
+      }),
+      router.push('/'); // Redirect to home page if token exists
+    }
+  }, [router]); 
 
   const alertIncompleteFields = () => {
     toast.info("Please fill all fields.", {

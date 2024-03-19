@@ -32,6 +32,19 @@ export default function LoginPage() {
     setShowPassword(!showPassword);
   }
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      toast.info("Already Logged In.", {
+        style: {
+          background: 'red',
+          color: 'white',
+        },
+      }),
+      router.push('/'); // Redirect to home page if token exists
+    }
+  }, [router]); 
+
   const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -51,7 +64,8 @@ export default function LoginPage() {
           color: 'white',
         },
       });
-      router.push("/profile");
+      localStorage.setItem('token', response.data.token); // Store token in localStorage
+      router.push("/");
     } catch (error: any) {
       toast.error(error.response.data.error, {
         style: {
@@ -92,7 +106,7 @@ export default function LoginPage() {
         <div>
           <Card className="w-[350px] dark:border dark:border-white">
             <CardHeader className='flex items-center justify-center'>
-              <CardTitle className='text-lg'>Sign In</CardTitle>
+              <CardTitle className='text-lg'>Log in</CardTitle>
               <CardDescription>Welcome to Turfify</CardDescription>
             </CardHeader>
             <CardContent>
@@ -124,7 +138,7 @@ export default function LoginPage() {
                     </p>
                   </div>
                   <div className="flex items-center justify-center">
-                    <Button className='px-20' type="submit">{loading ? "Loading..." : "Sign In"}</Button>
+                    <Button className='px-20' type="submit">{loading ? "Loading..." : "Log in"}</Button>
                     {/* Show loading indicator or button text based on loading state */}
                   </div>
                   <div className='mx-auto flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>or</div>

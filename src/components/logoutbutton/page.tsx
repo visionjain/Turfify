@@ -11,6 +11,9 @@ export default function LogoutButton() {
     const logout = async () => {
         try {
             await axios.get('/api/users/logout')
+
+            localStorage.removeItem('token');
+            
             toast.success('Logout successful', {
                 style: {
                     background: 'green',

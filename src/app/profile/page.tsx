@@ -4,14 +4,22 @@ import React, { useState, useEffect } from "react";
 import { toast } from 'sonner';
 import LogoutButton from "@/components/logoutbutton/page";
 import Loader from "@/components/loader/page";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function ProfilePage() {
+    const router = useRouter();
     const [userDetails, setUserDetails] = useState<any>(null); // Set the type to any
     const [userRole, setUserRole] = useState("");
 
     useEffect(() => {
-        fetchUserData();
-    }, []);
+        const token = localStorage.getItem('token');
+        if (!token) {
+            router.push('/login'); // Redirect to login page if token doesn't exist
+        } else {
+            fetchUserData();
+        }
+    }, [router]);
 
     const fetchUserData = async () => {
         try {
@@ -24,10 +32,15 @@ export default function ProfilePage() {
             toast.error("Failed to fetch user data");
         }
     }
+    
+    const loginredirect = () => {
+        router.push('/login');
+    }
 
     if (!userDetails) {
-        // Handle the case when userDetails is null
-        return <div className="flex items-center justify-center h-screen"><Loader/></div>;
+        return <div className="flex items-center justify-center h-screen">
+          <Loader/>
+        </div>;
     }
 
     if (userRole === "user") {
@@ -65,6 +78,7 @@ export default function ProfilePage() {
             <div className="flex flex-col items-center justify-center min-h-screen py-2">
                 <div>There is an issue, please login again</div>
                 <LogoutButton />
+                <Button variant='outline' onClick={loginredirect}>Login</Button>
             </div>
         );
     }
