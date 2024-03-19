@@ -40,7 +40,7 @@ const Nav = () => {
         {
           types: ["(cities)"], // Restrict results to cities only
           componentRestrictions: { country: "in" },
-          fields: ["address_components", "geometry", "icon", "name"],
+          fields: ["name"],
         }
       );
     }
