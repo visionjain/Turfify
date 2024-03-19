@@ -8,7 +8,7 @@ const IndexPage = () => {
         <Nav showSearchBar={true} />
       </div>
       <div className='pt-16'>
-        hi This is Home Page
+        Hi this is Home Page
       </div>
     </div>
 
