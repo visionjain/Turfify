@@ -6,15 +6,6 @@ import { FaLocationCrosshairs } from "react-icons/fa6";
 import { useRouter } from 'next/navigation';
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarTrigger,
-} from "@/components/ui/menubar";
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -24,13 +15,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { toast } from 'sonner';
 import axios from 'axios';
+import Loader from '../loader/page';
 interface NavProps {
   showSearchBar: boolean;
 }
 
 const Nav: React.FC<NavProps> = ({ showSearchBar }) => {
+  const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
-  const [userDetails, setUserDetails] = useState<any>(null); // Set the type to any
+  const [userDetails, setUserDetails] = useState<any>(null);
   const [userRole, setUserRole] = useState("");
   useEffect(() => {
     fetchUserData();
@@ -42,7 +35,9 @@ const Nav: React.FC<NavProps> = ({ showSearchBar }) => {
       const { data } = response.data;
       setUserDetails(data);
       setUserRole(data.role);
+      setLoading(false); 
     } catch (error) {
+      setLoading(false);
     }
   }
 
@@ -115,6 +110,10 @@ const Nav: React.FC<NavProps> = ({ showSearchBar }) => {
       );
     }
   }, [autoCompleteRef]);
+
+  if (loading) {
+    return <div className='flex h-screen justify-center items-center'><Loader/></div>;
+  }
 
   if (userRole === "user") {
     return (
