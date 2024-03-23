@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { toast } from 'sonner';
 import axios from 'axios';
-import Loader from '../loader/page';
 interface NavProps {
   showSearchBar: boolean;
 }
@@ -97,13 +96,13 @@ const Nav: React.FC<NavProps> = ({ showSearchBar }) => {
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const autoCompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
-
+  
   useEffect(() => {
     if (window.google && !autoCompleteRef.current && inputRef.current) {
       autoCompleteRef.current = new window.google.maps.places.Autocomplete(
         inputRef.current,
         {
-          types: ["(cities)"], // Restrict results to cities only
+          types: ["(cities)"],
           componentRestrictions: { country: "in" },
           fields: ["name"],
         }
@@ -111,10 +110,8 @@ const Nav: React.FC<NavProps> = ({ showSearchBar }) => {
     }
   }, [autoCompleteRef]);
 
-  if (loading) {
-    return <div className='flex h-screen justify-center items-center'><Loader/></div>;
-  }
-
+  
+ 
   if (userRole === "user") {
     return (
       <div className={`fixed top-0 left-0 right-0 ${darkMode && "dark"}`}>
@@ -176,7 +173,8 @@ const Nav: React.FC<NavProps> = ({ showSearchBar }) => {
         </div>
       </div>
     );
-  } else {
+  }
+  else {
     return (
       <div className={`fixed top-0 left-0 right-0 ${darkMode && "dark"}`}>
         <div className='h-14 border-b border-black dark:border-white flex justify-between items-center'>
@@ -217,6 +215,7 @@ const Nav: React.FC<NavProps> = ({ showSearchBar }) => {
       </div>
     );
   }
+ 
 };
 
 
