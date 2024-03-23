@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { toast } from 'sonner';
 import axios from 'axios';
+import Loader from '../loader/page';
 interface NavProps {
   showSearchBar: boolean;
 }
@@ -24,6 +25,10 @@ const Nav: React.FC<NavProps> = ({ showSearchBar }) => {
   const [darkMode, setDarkMode] = useState(false);
   const [userDetails, setUserDetails] = useState<any>(null);
   const [userRole, setUserRole] = useState("");
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const autoCompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+  const router = useRouter();
+
   useEffect(() => {
     fetchUserData();
   }, []);
@@ -34,14 +39,10 @@ const Nav: React.FC<NavProps> = ({ showSearchBar }) => {
       const { data } = response.data;
       setUserDetails(data);
       setUserRole(data.role);
-      setLoading(false); 
+      setLoading(false);
     } catch (error) {
       setLoading(false);
     }
-  }
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
   };
 
   useEffect(() => {
@@ -54,7 +55,23 @@ const Nav: React.FC<NavProps> = ({ showSearchBar }) => {
     }
   }, [darkMode]);
 
-  const router = useRouter();
+  useEffect(() => {
+    if (!loading && window.google && !autoCompleteRef.current && inputRef.current) {
+      autoCompleteRef.current = new window.google.maps.places.Autocomplete(
+        inputRef.current,
+        {
+          types: ["(cities)"],
+          componentRestrictions: { country: "in" },
+          fields: ["name"],
+        }
+      );
+    }
+  }, [loading]);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
   const loginredirect = () => {
     router.push('/login');
   };
@@ -88,29 +105,14 @@ const Nav: React.FC<NavProps> = ({ showSearchBar }) => {
     }
   }
 
-  // Function to extract initials from a string
   const getInitials = (name: string) => {
     const names = name.split(' ');
     return names.map((word) => word[0]).join('').toUpperCase();
   };
 
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const autoCompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
-  
-  useEffect(() => {
-    if (window.google && !autoCompleteRef.current && inputRef.current) {
-      autoCompleteRef.current = new window.google.maps.places.Autocomplete(
-        inputRef.current,
-        {
-          types: ["(cities)"],
-          componentRestrictions: { country: "in" },
-          fields: ["name"],
-        }
-      );
-    }
-  }, [autoCompleteRef]);
-
-  
+  if (loading) {
+    return <div className='flex h-screen justify-center items-center'><Loader /></div>;
+  }
  
   if (userRole === "user") {
     return (
