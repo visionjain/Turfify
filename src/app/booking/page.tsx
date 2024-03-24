@@ -12,6 +12,7 @@ const Bookings = () => {
     const router = useRouter();
     const [userDetails, setUserDetails] = useState<any>(null); // Set the type to any
     const [userRole, setUserRole] = useState("");
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -28,9 +29,11 @@ const Bookings = () => {
             const { data } = response.data;
             setUserDetails(data);
             setUserRole(data.role);
+            setLoading(false);
         } catch (error) {
             console.error("Error fetching user data:", error);
             toast.error("Failed to fetch user data");
+            setLoading(false);
         }
     }
 
@@ -45,7 +48,7 @@ const Bookings = () => {
     if (userRole === "user") {
         return (
             <div>
-                <Nav showSearchBar={false} />
+                <Nav loading={loading} userRole={userRole} userDetails={userDetails} showSearchBar={false} />
                 <div className='flex items-center justify-center h-screen text-5xl'>
                     Bana Raha hu BSDK
                     <div>
