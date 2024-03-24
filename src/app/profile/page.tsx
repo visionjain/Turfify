@@ -9,10 +9,23 @@ import { useRouter } from "next/navigation";
 import Nav from "@/components/navbar/page";
 export default function ProfilePage() {
     const router = useRouter();
+    const [loading, setLoading] = useState(true);
     const [userDetails, setUserDetails] = useState<any>(null); // Set the type to any
     const [userRole, setUserRole] = useState("");
 
     useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get('/api/users/me');
+                const { data } = response.data;
+                setUserDetails(data);
+                setUserRole(data.role);
+                setLoading(false);
+            } catch (error) {
+                expirylogout();
+                router.push('/login');
+            }
+        }
         const token = localStorage.getItem('token');
         if (!token) {
             router.push('/login'); // Redirect to login page if token doesn't exist
@@ -20,18 +33,13 @@ export default function ProfilePage() {
             fetchUserData();
         }
     }, [router]);
-
-    const fetchUserData = async () => {
+    const expirylogout = async () => {
         try {
-            const response = await axios.get('/api/users/me');
-            const { data } = response.data;
-            setUserDetails(data);
-            setUserRole(data.role);
-        } catch (error) {
-            console.error("Error fetching user data:", error);
-            toast.error("Failed to fetch user data");
+          await axios.get('/api/users/logout')
+          localStorage.removeItem('token');
+        } catch (error: any) {
         }
-    }
+    }    
     
     const loginredirect = () => {
         router.push('/login');
@@ -39,14 +47,14 @@ export default function ProfilePage() {
 
     if (!userDetails) {
         return <div className="flex items-center justify-center h-screen">
-          <Loader/>
+            <Loader/>
         </div>;
     }
 
     if (userRole === "user") {
         return (
             <div>
-               <Nav showSearchBar={false} />
+               <Nav loading={loading} userRole={userRole} userDetails={userDetails} showSearchBar={false} />
             <div className="flex flex-col items-center justify-center min-h-screen py-2">
                 <h2>Welcome User</h2>
                 <p>Name: {userDetails.name}</p>

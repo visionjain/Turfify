@@ -18,32 +18,17 @@ import axios from 'axios';
 import Loader from '../loader/page';
 interface NavProps {
   showSearchBar: boolean;
+  userDetails: any;
+  userRole: any;
+  loading: any,
 }
 
-const Nav: React.FC<NavProps> = ({ showSearchBar }) => {
-  const [loading, setLoading] = useState(true);
+
+const Nav: React.FC<NavProps> = ({ showSearchBar, userDetails, userRole, loading }) => {
   const [darkMode, setDarkMode] = useState(false);
-  const [userDetails, setUserDetails] = useState<any>(null);
-  const [userRole, setUserRole] = useState("");
   const inputRef = useRef<HTMLInputElement | null>(null);
   const autoCompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const router = useRouter();
-
-  useEffect(() => {
-    fetchUserData();
-  }, []);
-
-  const fetchUserData = async () => {
-    try {
-      const response = await axios.get('/api/users/me');
-      const { data } = response.data;
-      setUserDetails(data);
-      setUserRole(data.role);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
     const rootElement = document.documentElement;
