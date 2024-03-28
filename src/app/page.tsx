@@ -39,7 +39,7 @@ const IndexPage = () => {
       <div>
         <Nav loading={loading} userRole={userRole} userDetails={userDetails} showSearchBar={true} />
       </div>
-      <div className='pt-16'>
+      <div>
         Hi this is Home Page
       </div>
     </div>
