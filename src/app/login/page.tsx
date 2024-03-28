@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import CopyRight from '@/components/copybar/page.';
+import CopyRight from '@/components/copybar/page';
 import DarkModeButton from '@/components/darkmode/page';
 import { FaRegEye, FaEyeSlash } from 'react-icons/fa';
 import { toast } from 'sonner';

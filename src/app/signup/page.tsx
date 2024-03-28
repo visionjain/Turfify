@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
-import CopyRight from '@/components/copybar/page.';
+import CopyRight from '@/components/copybar/page';
 import DarkModeButton from '@/components/darkmode/page';
 import { PhoneInput } from './phone-input';
 import { FaRegEye, FaEyeSlash } from 'react-icons/fa';
