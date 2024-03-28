@@ -49,7 +49,9 @@ export default function ProfilePage() {
     const [date, setDate] = useState<Date>();
     const [editableName, setEditableName] = useState("");
     const [gender, setGender] = useState("");
-    const [updating, setUpdating] = useState(false); // State to track if details are being updated
+    const [currentPassword, setCurrentPassword] = useState(""); // State variable for current password
+    const [newPassword, setNewPassword] = useState(""); // State variable for new password
+    const [updating, setUpdating] = useState(false); // State to track if password is being updated
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -108,6 +110,35 @@ export default function ProfilePage() {
             window.location.reload();
         } catch (error) {
             toast.error("Failed to update user details", {
+                style: {
+                    background: 'red',
+                    color: 'white',
+                },
+            });
+        } finally {
+            setUpdating(false);
+        }
+    };
+
+    const handleUpdatePassword = async () => {
+        if (updating) return;
+        try {
+            setUpdating(true);
+            const data = {
+                email: userDetails.email,
+                currentPassword: currentPassword,
+                newPassword: newPassword
+            };
+            await axios.post('/api/users/updatePassword', data);
+            toast.success("Password updated successfully", {
+                style: {
+                    background: 'green',
+                    color: 'white',
+                },
+            });
+            setNewPassword(""); // Clear new password input after successful update
+        } catch (error: any) {
+            toast.error(error.response.data.error, {
                 style: {
                     background: 'red',
                     color: 'white',
@@ -250,15 +281,15 @@ export default function ProfilePage() {
                                 <div className="font-normal ml-4 mt-2 text-3xl">Update Password</div>
                                 <div className="px-4 pt-1">
                                     <div className=" p-2 w-1/3">
-                                        <Label htmlFor="phone">Old Password</Label>
-                                        <Input type="password" id="password" className="border-black dark:border-white" placeholder="Old Password" />
+                                        <Label htmlFor="currentPassword">Current Password</Label>
+                                        <Input type="password" id="currentPassword" className="border-black dark:border-white" placeholder="Old Password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
                                     </div>
                                     <div className="w-1/3 p-2">
-                                        <Label htmlFor="phone">New Password</Label>
-                                        <Input type="password" id="newpassword" className="border-black dark:border-white" placeholder="New Password" />
+                                        <Label htmlFor="newPassword">New Password</Label>
+                                        <Input type="password" id="newPassword" className="border-black dark:border-white" placeholder="New Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
                                     </div>
                                     <div className="px-2 pt-2">
-                                        <Button>Update Password</Button>
+                                        <Button onClick={handleUpdatePassword} disabled={updating}>Update Password</Button>
                                     </div>
                                 </div>
                             </div>
