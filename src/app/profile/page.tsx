@@ -289,7 +289,23 @@ export default function ProfilePage() {
                                         <Input type="password" id="newPassword" className="border-black dark:border-white" placeholder="New Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
                                     </div>
                                     <div className="px-2 pt-2">
-                                        <Button onClick={handleUpdatePassword} disabled={updating}>Update Password</Button>
+                                        <AlertDialog>
+                                        <AlertDialogTrigger asChild>
+                                            <Button >Update Password</Button>
+                                        </AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    This will update your profile Password
+                                                </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                <AlertDialogAction onClick={handleUpdatePassword} disabled={updating}>Update</AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
                                     </div>
                                 </div>
                             </div>
