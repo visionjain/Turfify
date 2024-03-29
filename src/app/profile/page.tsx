@@ -303,7 +303,6 @@ export default function ProfilePage() {
                                             {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
                                         </button>
                                     </div>
-
                                     <div className="w-1/3 p-2 relative">
                                         <Label htmlFor="newPassword">New Password</Label>
                                         <Input
@@ -357,13 +356,174 @@ export default function ProfilePage() {
         );
     } else if (userRole === "turf") {
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen py-2">
-                <h2>Welcome Turf</h2>
-                <p>Name: {userDetails.name}</p>
-                <p>Email: {userDetails.email}</p>
-                <p>Phone Number: {userDetails.phoneNumber}</p>
-                <LogoutButton />
+            <div className="h-screen">
+            <div>
+                <Nav loading={loading} userRole={userRole} userDetails={userDetails} showSearchBar={false} />
             </div>
+            <div className="flex h-[86.8%]">
+                <div className="flex-col flex w-1/4 items-center pt-10">
+                    <Avatar className="h-40 w-40">
+                        <AvatarFallback className='text-7xl'>{getInitials(userDetails.name)}</AvatarFallback>
+                    </Avatar>
+                    <p className="text-3xl pt-2 font-normal">{userDetails.name}</p>
+                    <p>{userDetails.phoneNumber}</p>
+                </div>
+                <div>
+                    <Separator orientation="vertical" />
+                </div>
+                <div className="flex w-3/4">
+                    <div className="w-[100%]">
+                        <div className="font-normal ml-4 my-4 text-3xl">General Account Settings</div>
+                        <Separator />
+                        <div className="w-[80%] ml-4 mt-2">
+                            <div className="p-2">
+                                <Label htmlFor="name">Name</Label>
+                                <Input
+                                    type="text"
+                                    className="border-black dark:border-white"
+                                    id="name"
+                                    placeholder="Name"
+                                    value={editableName}
+                                    onChange={(e) => setEditableName(e.target.value)}
+                                />
+                            </div>
+                            <div className="flex">
+                                <div className="p-2 w-1/2">
+                                    <Label htmlFor="email">Email</Label>
+                                    <Input type="email" id="email" className="border-black dark:border-white" value={userDetails.email} readOnly />
+                                </div>
+                                <div className="p-2 w-1/2">
+                                    <Label htmlFor="email">Gender</Label>
+                                    <Select
+                                        value={gender}
+                                        onValueChange={handleGenderChange}
+                                    >
+                                        <SelectTrigger className="w-full border-black dark:border-white">
+                                            <SelectValue>{gender ? gender : 'Select Gender'}</SelectValue>
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                <SelectItem value="male">Male</SelectItem>
+                                                <SelectItem value="female">Female</SelectItem>
+                                                <SelectItem value="others">Others</SelectItem>
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                            </div>
+                            <div className="flex">
+                                <div className="w-1/2 p-2">
+                                    <Label htmlFor="phone">Phone Number</Label>
+                                    <Input type="text" id="phoneNumber" className="border-black dark:border-white" value={userDetails.phoneNumber} readOnly />
+                                </div>
+                                <div className="w-1/2 p-2">
+                                    <Label htmlFor="datefobirth">Date Of Birth</Label>
+                                    <br />
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <Button
+                                                variant={"outline"}
+                                                className={cn(
+                                                    "w-full border-black dark:border-white justify-start text-left font-normal",
+                                                    !date && "text-muted-foreground"
+                                                )}
+                                            >
+                                                <CalendarIcon className="mr-2 h-4 w-4 text-black dark:text-white" />
+                                                {date ? format(date, "PPP") : <span className="text-black">Pick a date</span>}
+                                            </Button>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-auto p-0" align="start">
+                                            <Calendar
+                                                mode="single"
+                                                captionLayout="dropdown-buttons"
+                                                selected={date}
+                                                onSelect={setDate}
+                                                fromYear={1960}
+                                                toYear={2030}
+                                                initialFocus
+                                            />
+                                        </PopoverContent>
+                                    </Popover>
+                                </div>
+                            </div>
+                            <div className="p-2 pb-3">
+                                <AlertDialog>
+                                    <AlertDialogTrigger asChild>
+                                        <Button>Update Details</Button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                        <AlertDialogHeader>
+                                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                            <AlertDialogDescription>
+                                                This will update your profile details
+                                            </AlertDialogDescription>
+                                        </AlertDialogHeader>
+                                        <AlertDialogFooter>
+                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                            <AlertDialogAction onClick={handleUpdateDetails} disabled={updating}>Update</AlertDialogAction>
+                                        </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialog>
+                            </div>
+                        </div>
+                        <Separator />
+                        <div>
+                            <div className="font-normal ml-4 mt-2 text-3xl">Update Password</div>
+                            <div className="px-4 pt-1">
+                                <div className=" p-2 w-1/3 relative">
+                                    <Label htmlFor="currentPassword">Current Password</Label>
+                                    <Input
+                                        type={showPassword ? "text" : "password"}
+                                        id="currentPassword"
+                                        className="border-black dark:border-white"
+                                        placeholder="Old Password"
+                                        value={currentPassword}
+                                        onChange={(e) => setCurrentPassword(e.target.value)}
+                                    />
+                                    <button className="absolute top-[43px] right-6" onClick={togglePasswordVisibility}>
+                                        {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+                                    </button>
+                                </div>
+                                <div className="w-1/3 p-2 relative">
+                                    <Label htmlFor="newPassword">New Password</Label>
+                                    <Input
+                                        type={showPassword2 ? "text" : "password"}
+                                        id="newPassword"
+                                        className="border-black dark:border-white"
+                                        placeholder="New Password"
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                    />
+                                    <button className="absolute top-[43px] right-6" onClick={togglePasswordVisibility2}>
+                                        {showPassword2 ? <FaRegEye /> : <FaRegEyeSlash />}
+                                    </button>
+                                </div>
+                                <div className="px-2 pt-2">
+                                    <AlertDialog>
+                                        <AlertDialogTrigger asChild>
+                                            <Button >Update Password</Button>
+                                        </AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    This will update your profile Password
+                                                </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                <AlertDialogAction onClick={handleUpdatePassword} disabled={updating}>Update</AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="h-10 pt-2 border-t border-black dark:border-white flex items-center justify-center">© 2024 Turfify. All rights reserved.</div>
+        </div>
         );
     } else {
         return (
