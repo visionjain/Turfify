@@ -15,6 +15,7 @@ import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
+import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 import {
     Popover,
     PopoverContent,
@@ -52,6 +53,8 @@ export default function ProfilePage() {
     const [currentPassword, setCurrentPassword] = useState(""); // State variable for current password
     const [newPassword, setNewPassword] = useState(""); // State variable for new password
     const [updating, setUpdating] = useState(false); // State to track if password is being updated
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [showPassword2, setShowPassword2] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -88,6 +91,12 @@ export default function ProfilePage() {
 
     const loginredirect = () => {
         router.push('/login');
+    }
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    }
+    const togglePasswordVisibility2 = () => {
+        setShowPassword2(!showPassword2);
     }
 
     const handleUpdateDetails = async () => {
@@ -280,32 +289,53 @@ export default function ProfilePage() {
                             <div>
                                 <div className="font-normal ml-4 mt-2 text-3xl">Update Password</div>
                                 <div className="px-4 pt-1">
-                                    <div className=" p-2 w-1/3">
+                                    <div className=" p-2 w-1/3 relative">
                                         <Label htmlFor="currentPassword">Current Password</Label>
-                                        <Input type="password" id="currentPassword" className="border-black dark:border-white" placeholder="Old Password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
+                                        <Input
+                                            type={showPassword ? "text" : "password"}
+                                            id="currentPassword"
+                                            className="border-black dark:border-white"
+                                            placeholder="Old Password"
+                                            value={currentPassword}
+                                            onChange={(e) => setCurrentPassword(e.target.value)}
+                                        />
+                                        <button className="absolute top-[43px] right-6" onClick={togglePasswordVisibility}>
+                                            {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+                                        </button>
                                     </div>
-                                    <div className="w-1/3 p-2">
+
+                                    <div className="w-1/3 p-2 relative">
                                         <Label htmlFor="newPassword">New Password</Label>
-                                        <Input type="password" id="newPassword" className="border-black dark:border-white" placeholder="New Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+                                        <Input
+                                            type={showPassword2 ? "text" : "password"}
+                                            id="newPassword"
+                                            className="border-black dark:border-white"
+                                            placeholder="New Password"
+                                            value={newPassword}
+                                            onChange={(e) => setNewPassword(e.target.value)}
+                                        />
+                                        <button className="absolute top-[43px] right-6" onClick={togglePasswordVisibility2}>
+                                            {showPassword2 ? <FaRegEye /> : <FaRegEyeSlash />}
+                                        </button>
                                     </div>
                                     <div className="px-2 pt-2">
                                         <AlertDialog>
-                                        <AlertDialogTrigger asChild>
-                                            <Button >Update Password</Button>
-                                        </AlertDialogTrigger>
-                                        <AlertDialogContent>
-                                            <AlertDialogHeader>
-                                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                                                <AlertDialogDescription>
-                                                    This will update your profile Password
-                                                </AlertDialogDescription>
-                                            </AlertDialogHeader>
-                                            <AlertDialogFooter>
-                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                <AlertDialogAction onClick={handleUpdatePassword} disabled={updating}>Update</AlertDialogAction>
-                                            </AlertDialogFooter>
-                                        </AlertDialogContent>
-                                    </AlertDialog>
+                                            <AlertDialogTrigger asChild>
+                                                <Button >Update Password</Button>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                                    <AlertDialogDescription>
+                                                        This will update your profile Password
+                                                    </AlertDialogDescription>
+                                                </AlertDialogHeader>
+                                                <AlertDialogFooter>
+                                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                    <AlertDialogAction onClick={handleUpdatePassword} disabled={updating}>Update</AlertDialogAction>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
                                     </div>
                                 </div>
                             </div>
